@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Img from "../assets/image/cookbook.jpg";
 import Tv1 from "../assets/image/tv-1.jpg";
@@ -7,37 +7,52 @@ import Tv2 from "../assets/image/tv-2.jpg";
 import Tv3 from "../assets/image/tv-3.jpg";
 import CurrentCategory from "./CurrentCategory";
 import { Rating } from "@smastrom/react-rating";
-import { register } from "swiper/element/bundle";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Reviews from "./Reviews";
 
 const Content = () => {
   const listImage = [Tv1, Tv2, Tv3];
-  register();
+  const [selectedImage, setSelectedImage] = useState(listImage[0]);
+
+  const changeImage = (index) => {
+    setSelectedImage(listImage[index]);
+  };
 
   return (
     <>
       <div className="p-8 md:flex gap-4 bg-white">
-        <div className="w-80">
-          <swiper-container
-            // ref={swiperElRef}
-            slides-per-view="1"
-            pagination="true"
-          >
+        <div className="">
+          <div className="h-80">
+            <TransformWrapper>
+              <TransformComponent>
+                <Image
+                  src={selectedImage}
+                  alt={`product`}
+                  height={1000}
+                  width={1000}
+                ></Image>
+              </TransformComponent>
+            </TransformWrapper>
+          </div>
+          <div className="flex gap-10 justify-center mt-2 h-11">
             {listImage.map((item, index) => {
               return (
-                <swiper-slide key={index.toString}>
+                <button
+                  className="hover:border-2 hover:border-orange-400 hover:rounded-md"
+                  key={index.toString}
+                  onClick={() => changeImage(index)}
+                >
                   <Image
                     src={item}
-                    alt={"prouct1"}
-                    height={400}
-                    width={300}
+                    alt={`product`}
+                    height={50}
+                    width={50}
                   ></Image>
-                </swiper-slide>
+                </button>
               );
             })}
-          </swiper-container>
+          </div>
         </div>
-        {/* <Image src={Tv1} alt={"prouct1"} height={400} width={300}></Image> */}
         <div className="">
           <div className="text-xl mb-2">
             The Childs Story Bible Hardcover – Picture Book, August 29, 1983
